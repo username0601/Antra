@@ -1,0 +1,90 @@
+Understanding Data Types	
+1. 
+	string
+	double
+	int
+	enum 
+	decimal 
+	string 
+	double 
+	long 
+	long 
+	int
+
+2.
+	value type is passed by data value, reference type is passed by memory address.
+	value type is stored in the stack memory, reference type is stored in the heap memory.
+	value type will not be collected by garbage collector but reference type will be collected by garbage collector.
+	value type can be created by struct or enum while reference type can be created be class, interface, delegate or array.
+	value can not accept null value but reference type can.
+	boxing is the process converting a value type to an object type, unboxing is the about converting an object type back to value type. 
+	when you box a value type,  the CLR creates a new object on the heap and copies the value from the stack to this newly created object, when you unbox an object, the CLR extracts the value from the boxed objects and copies it back onto the stack.
+
+3.
+	managed resources are typically memory and objects allocated by the .NET runtime and managed by the CLR garbage collector. Managed resources are automatically tracked and cleaned up by the garbage collector when they are no longer in use. 
+	unmanaged resources are external resources that are not managed by the CLR garbage collector. Unmanaged resources are not automatically cleaned up bt the garbage collector. it’s the responsibility of the developer to release these resources explicitly when they are no longer needed to avoid memory leaks and resource contention.  
+
+4.
+	the garbage collector simplifies memory management for developers, improves application reliability and security, and helps optimize memory usage and performance. 
+
+
+Console.WriteLine("Please answer below questions to get your \'Hacker name\'");
+Console.WriteLine("What's your favorite color?");
+string? color = Console.ReadLine();
+Console.WriteLine("What's your astrology sign?");
+string? sign = Console.ReadLine();
+Console.WriteLine("What's your street address number?");
+string? address = Console.ReadLine();
+Console.WriteLine($"Your hacker name is {color}{sign}{address}");
+
+
+
+Practice number sizes and ranges
+
+class Program
+{
+    public static void Main(string[] arge)
+    {
+        Console.WriteLine($"Size of sbyte: {sizeof(sbyte)} bytes, Min: {sbyte.MinValue}, Max: {sbyte.MaxValue}");
+        Console.WriteLine($"Size of byte: {sizeof(byte)} bytes, Min: {byte.MinValue}, Max: {byte.MaxValue}");
+        Console.WriteLine($"Size of short: {sizeof(short)} bytes, Min: {short.MinValue}, Max: {short.MaxValue}");
+        Console.WriteLine($"Size of ushort: {sizeof(ushort)} bytes, Min: {ushort.MinValue}, Max: {ushort.MaxValue}");
+        Console.WriteLine($"Size of int: {sizeof(int)} bytes, Min: {int.MinValue}, Max: {int.MaxValue}");
+        Console.WriteLine($"Size of uint: {sizeof(uint)} bytes, Min: {uint.MinValue}, Max: {uint.MaxValue}");
+        Console.WriteLine($"Size of long: {sizeof(long)} bytes, Min: {long.MinValue}, Max: {long.MaxValue}");
+        Console.WriteLine($"Size of ulong: {sizeof(ulong)} bytes, Min: {ulong.MinValue}, Max: {ulong.MaxValue}");
+        Console.WriteLine($"Size of float: {sizeof(float)} bytes, Min: {float.MinValue}, Max: {float.MaxValue}");
+        Console.WriteLine($"Size of double: {sizeof(double)} bytes, Min: {double.MinValue}, Max: {double.MaxValue}");
+        Console.WriteLine($"Size of decimal: {sizeof(decimal)} bytes, Min: {decimal.MinValue}, Max: {decimal.MaxValue}");
+        
+        
+        Console.WriteLine($"---------------------------------------------------------");
+        
+        Console.WriteLine("Enter number of centuries: ");
+        int centuries = int.Parse(Console.ReadLine());
+
+        long years = centuries * 100L;
+        long days = years * 365;
+        long hours = days * 24;
+        long minutes = hours * 60;
+        long seconds = minutes * 60;
+        long milliseconds = seconds * 1000;
+        long microseconds = milliseconds * 1000;
+        long nanoseconds = microseconds * 1000;
+        
+        Console.WriteLine($"{centuries} centuries = {years} years = {days} days = {hours} hours = {minutes} minutes = {seconds} seconds = {milliseconds} milliseconds = {microseconds} microseconds = {nanoseconds} nanoseconds");
+        
+    }
+}
+
+
+Controlling Flow and Converting Types
+1.
+	you will encounter a running exception called ‘System.DivideByZeroException’
+
+2.
+	there will have no exception, the result will be a special value representing positive or negative infinity, depending on the sign of the numerator. 
+
+3.
+	integer arithmetic overflow results in wrapping around the value range without throwing an exception which is called “unchecked” arithmetic. If you add ‘1’ to ‘int.MaxValue’ or subtract ‘1’ from ‘int.MinValue’, the result will wrap around to the opposite extreme of the range without any error or exception being thrown. 
+	
