@@ -1,3 +1,5 @@
+01 Introduction to C# and Data Types
+
 Understanding Data Types	
 1. 
 	string
@@ -78,6 +80,7 @@ class Program
 }
 
 
+
 Controlling Flow and Converting Types
 1.
 	you will encounter a running exception called ‘System.DivideByZeroException’
@@ -88,3 +91,349 @@ Controlling Flow and Converting Types
 3.
 	integer arithmetic overflow results in wrapping around the value range without throwing an exception which is called “unchecked” arithmetic. If you add ‘1’ to ‘int.MaxValue’ or subtract ‘1’ from ‘int.MinValue’, the result will wrap around to the opposite extreme of the range without any error or exception being thrown. 
 	
+4.
+	x=y++ is post-increment, the y is assigned to x first then the y is incremented, x = ++y is pre-increment, the y is incremented first then assigned to x.
+
+5.
+	break: terminate the loop immediately and exit 
+	continue: skip the remaining code in the loop’s current iteration and continue to the next iteration
+	return: exits the entire method in which the loop is contained
+
+6. 
+	initialization: initialized the loop control variable and is executed only once at the beginning of the loop. It’s optional
+	condition: specifies a boolean expression that determines whether the loop should continue executing or terminate, It’s required
+	iteration: control how the control variables are modified after each iteration of the looo, it’s optional
+
+7.
+	the “=” is the assignment operator, used to assign a value to a variable. The “==” is the conditional operator, used to compare two values of equality
+
+8.
+	yes, this is a null statement 
+
+9.
+	it’s the wildcard for default case, it matches any value that hasn’t been explicitly handled by other cases
+
+10.
+	IEnumerable
+
+
+
+
+
+Practice loops and operators
+
+class Program
+{
+    public static void Main(string[] arge)
+    {
+        for(int i = 1; i <= 100; i++)
+        {
+            if (i % 15 == 0)
+            {
+                Console.WriteLine($"/fizzbuzz/");
+            }else if (i % 3 == 0)
+            {
+                Console.WriteLine($"/fizz/");
+            }else if (i % 5 == 0)
+            {
+                Console.WriteLine($"/buzz/");
+            }
+            else
+            {
+                Console.WriteLine($"{i}");
+            }
+        }
+
+//This code will result an infinite loop because the max value for byte is 255, after reaching out 255 the value will wrap around to 0 make it an infinite loop. 
+//Add an if condition after writing the number to check whether the value reached to the Byte.MaxValue
+
+
+	int correctNumber = new Random().Next(3) + 1;
+        bool flag = true;
+
+        while (flag)
+        {
+            Console.WriteLine("Guess the number:");
+            int guessedNumber = int.Parse(Console.ReadLine());
+            if (guessedNumber < 1 || guessedNumber > 3)
+            {
+                Console.WriteLine("Your guess is outside the valid range.");
+            }
+            else
+            {
+                if (guessedNumber == correctNumber)
+                {
+                    Console.WriteLine("You guessed the correct number.");
+                    flag = false;
+                }
+                else if (guessedNumber < correctNumber)
+                {
+                    Console.WriteLine("Your guess is too low.");
+                }
+                else
+                {
+                    Console.WriteLine("Your guess is too high.");
+                }
+            }
+        }
+
+
+
+
+	for (int i = 1; i <= 5; i++)
+        {
+            for (int j = 1; j <= 5 - i; j++)
+            {
+                Console.Write(" ");
+            }
+            for (int k = 1; k <= 2 * i - 1; k++)
+            {
+                Console.Write("*");
+            }
+            Console.WriteLine();
+        }
+
+
+
+
+	DateTime birthDate = new DateTime(1999, 6, 8); 
+
+        TimeSpan age = DateTime.Today - birthDate;
+        int daysOld = age.Days;
+
+        Console.WriteLine($"The person is {daysOld} days old.");
+
+        int daysToNextAnniversary = 10000 - (daysOld % 10000);
+        DateTime nextAnniversaryDate = DateTime.Today.AddDays(daysToNextAnniversary);
+
+        Console.WriteLine($"Their next 10,000-day anniversary is on {nextAnniversaryDate:d}.");
+
+
+
+
+	DateTime currentTime = DateTime.Now;
+
+        int hour = currentTime.Hour;
+
+        string greeting;
+        if (hour >= 6 && hour < 12)
+        {
+            greeting = "Good Morning";
+        }
+        else if (hour >= 12 && hour < 18)
+        {
+            greeting = "Good Afternoon";
+        }
+        else if (hour >= 18 && hour < 22)
+        {
+            greeting = "Good Evening";
+        }
+        else
+        {
+            greeting = "Good Night";
+        }
+
+        Console.WriteLine(greeting);
+
+
+
+
+	for (int increment = 1; increment <= 4; increment++)
+        {
+            for (int i = 0; i <= 24; i += increment)
+            {
+                Console.Write(i);
+                if (i != 24) 
+                {
+                    Console.Write(",");
+                }
+            }
+            Console.WriteLine(); 
+        }
+    }
+}
+
+
+
+
+02 Array and Strings
+
+1. 
+	String is immutable, StringBuilder is mutable, StringBuilder have more memory efficient 
+
+2.
+	System.Array
+
+3.
+	Array.Sort();
+
+4.
+	Length
+
+5.
+	yes, you can store all value types and reference types 
+
+6.
+	System.Array.CopyTo() can let you copy the elements of one array to another array, and you can copy the elements to the destination array on the index you specific
+	System.Array.Clone() creates a shallow copy of the original array
+
+
+Practice Arrays
+
+
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int[] originalArray = new int[10];
+
+        for (int i = 0; i < originalArray.Length; i++)
+        {
+            originalArray[i] = i * 10;
+        }
+
+        int[] newArray = new int[originalArray.Length];
+
+        for (int i = 0; i < originalArray.Length; i++)
+        {
+            newArray[i] = originalArray[i];
+        }
+
+        Console.WriteLine("Original Array:");
+        foreach (int item in originalArray)
+        {
+            Console.Write(item + " ");
+        }
+        Console.WriteLine();
+
+        Console.WriteLine("\nNew Array (Copied from Original):");
+        foreach (int item in newArray)
+        {
+            Console.Write(item + " ");
+        }
+        Console.WriteLine();
+    }
+}
+
+
+
+
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<string> itemList = new List<string>();
+
+        while (true)
+        {
+            Console.WriteLine("Enter command (+ item, - item, or -- to clear):");
+            string input = Console.ReadLine();
+
+            char command = input[0];
+            string item = input.Substring(1).Trim();
+
+            switch (command)
+            {
+                case '+':
+                    itemList.Add(item);
+                    Console.WriteLine($"Added '{item}' to the list.");
+                    break;
+
+                case '-':
+                    if (input[1] == '-')
+                    {
+                        itemList.Clear();
+                        Console.WriteLine("Cleared the list.");
+                        break;
+                    }
+                    else
+                    {
+                        if (itemList.Remove(item))
+                        {
+                            Console.WriteLine($"Removed '{item}' from the list.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"'{item}' not found in the list.");
+                        }
+                        break;
+                    }
+            }
+
+            Console.WriteLine("Current list:");
+            foreach (string listItem in itemList)
+            {
+                Console.WriteLine("- " + listItem);
+            }
+
+            Console.WriteLine();
+        }
+    }
+}
+
+
+
+
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine($"Input the start number:");
+        int startNum = int.Parse(Console.ReadLine());
+        Console.WriteLine($"Input the end number:");
+        int endNum = int.Parse(Console.ReadLine());
+        
+        int[] primes = FindPrimesInRange(startNum, endNum);
+
+        Console.WriteLine($"Prime numbers between {startNum} and {endNum}:");
+        foreach (int prime in primes)
+        {
+            Console.Write(prime + " ");
+        }
+        Console.WriteLine();
+    }
+    
+    
+    static int[] FindPrimesInRange(int startNum, int endNum)
+    {
+        List<int> primesList = new List<int>();
+
+        for (int num = startNum; num <= endNum; num++)
+        {
+            if (IsPrime(num))
+            {
+                primesList.Add(num);
+            }
+        }
+        return primesList.ToArray();
+    }
+    
+    static bool IsPrime(int num)
+    {
+        if (num <= 1)
+        {
+            return false;
+        }
+        for (int i = 2; i <= Math.Sqrt(num); i++)
+        {
+            if (num % i == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
