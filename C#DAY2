@@ -49,4 +49,431 @@
 	overriding allows a subclass to provide a specific implementation of a method that is already defined in its superclass, it’s determined at runtime
 
 8.
+	fields are variables declared within a class that hold data associated with instances of the class
+	properties are special methods that provide controlled access to the fields of the class, they encapsulate fields and allow you to define custom logic for getting and setting their values
+
+9.
+	you can make a method parameter optional by providing a default value for it in the method signature. This default value will be used when the parameter is not explicitly provided during method invocation. Optional parameters must be specified at the end of the parameter list, after any required parameters.
+
+10.
+	interface
+		is a reference type that defines a contract containing a set of members that implementing classes must provide 
+		cannot contain any implementation
+		a class can implement multiple interfaces, allowing it to fulfill multiple contracts 
+	abstract 
+		is a class that cannot be instantiated directly and may contain abstract members that must be implemented by derived classes
+		abstract classes can also contain concrete members with implementations 
+		a class can inherit from only one abstract class
+		is used to define a common base or template for related classes. Abstract class provides a way to share code among related classes while still enforcing a common structure
+
+11.
+	members of an interface are implicitly public and cannot have any other accessibility level specified. This means that all members of an interface are accessible to any code that can access the interface itself. 
+
+12.
+	true
+
+13.
+	true
+
+14.
+	true
+
+15.
+	false 
+
+16.
+	true
+
+17.
+	true
+
+18.
+	true
+
+19.
+	false 
+
+20.
+	false 
+
+21.
+	true
+
+22.
+	false 
+
+23.
+	true 
+
+Working with methods 
+
+
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int[] numbers = GenerateNumbers();
+        Reverse(numbers);
+        PrintNumbers(numbers);
+    }
+
+    static void PrintNumbers(int[] numbers)
+    {
+        Console.WriteLine($"Reversed array:");
+        foreach (int num in numbers)
+        {
+            Console.Write(num + " ");
+        }
+        Console.WriteLine();
+    }
+
+    static int[] GenerateNumbers()
+    {
+        int[] numbers = new int[10];
+        for (int i = 0; i < 10; i++)
+        {
+            numbers[i] = i + 1;
+        }
+        return numbers;
+    }
+
+    static void Reverse(int[] numbers)
+    {
+        int left = 0;
+        int right = numbers.Length - 1;
+        while (left < right)
+        {
+            int temp = numbers[left];
+            numbers[left] = numbers[right];
+            numbers[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
+
+
+
+
+
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            Console.WriteLine($"Fibonacci({i}) = {Fibonacci(i)}");
+        }
+    }
+
+    static int Fibonacci(int n)
+    {
+        if (n == 1 || n == 2)
+        {
+            return 1;
+        }
+        else
+        {
+            return Fibonacci(n - 1) + Fibonacci(n - 2);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+public interface IPersonService
+{
+    int CalculateAge(DateTime dateOfBirth);
+    decimal CalculateSalary(decimal baseSalary);
+    List<string> GetAddresses();
+}
+
+public interface IStudentService : IPersonService
+{
+    double CalculateGPA(Dictionary<string, char> courses);
+}
+
+public interface IInstructorService : IPersonService
+{
+    decimal CalculateBonusSalary(DateTime joinDate);
+}
+
+public interface ICourseService
+{
+    void EnrollStudent(Student student);
+}
+
+public interface IDepartmentService
+{ 
+    void AddInstructor(Instructor instructor);
+    List<Course> GetCourses();
+}
+public abstract class Person : IPersonService
+{
+    protected string Name;
+    protected DateTime DateOfBirth;
+    protected List<string> Addresses;
+
+    public int CalculateAge(DateTime dateOfBirth)
+    {
+        return (int)Math.Floor((DateTime.Now - dateOfBirth).TotalDays / 365.25);
+    }
+    public abstract decimal CalculateSalary(decimal baseSalary);
+
+    public List<string> GetAddresses()
+    {
+        return Addresses;
+    }
+}
+public class Instructor : Person, IInstructorService
+{
+    private Department Department;
+    private DateTime JoinDate;
+
+    public override decimal CalculateSalary(decimal baseSalary)
+    {
+        decimal bonus = CalculateBonusSalary(JoinDate);
+        return baseSalary + bonus;
+    }
+    public decimal CalculateBonusSalary(DateTime joinDate)
+    {
+        int yearsOfExperience = CalculateAge(joinDate);
+        return yearsOfExperience * 1000; 
+    }
+}
+public class Student : Person, IStudentService
+{
+    private Dictionary<string, char> Courses;
+
+    public override decimal CalculateSalary(decimal baseSalary)
+    {
+        return -1;
+    }
+    
+    public double CalculateGPA(Dictionary<string, char> courses)
+    {
+        int totalCourses = courses.Count;
+        if (totalCourses == 0) return 0; 
+
+        int totalGradePoints = 0;
+        foreach (var courseGrade in courses.Values)
+        {
+            totalGradePoints += GetGradePoints(courseGrade);
+        }
+
+        return (double)totalGradePoints / totalCourses;
+    }
+    
+    private int GetGradePoints(char grade)
+    {
+        switch (grade)
+        {
+            case 'A': return 4;
+            case 'B': return 3;
+            case 'C': return 2;
+            case 'D': return 1;
+            case 'F': return 0;
+            default: return 0; 
+        }
+    }
+}
+public class Course : ICourseService
+{
+    private List<Student> EnrolledStudents;
+
+    public void EnrollStudent(Student student)
+    {
+        EnrolledStudents.Add(student);
+    }
+}
+
+public class Department : IDepartmentService
+{
+    private Instructor Head;
+    private DateTime StartDate;
+    private DateTime EndDate;
+    private List<Course> Courses;
+
+    public void AddInstructor(Instructor instructor)
+    {
+        Head = instructor;
+    }
+
+    public List<Course> GetCourses()
+    {
+        return Courses;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+using System;
+
+public class Color
+{
+    private int red;
+    private int green;
+    private int blue;
+    private int alpha;
+
+    public Color(int red, int green, int blue, int alpha = 255)
+    {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+    }
+
+    public int Red
+    {
+        get { return red; }
+        set { red = value; }
+    }
+
+    public int Green
+    {
+        get { return green; }
+        set { green = value; }
+    }
+
+    public int Blue
+    {
+        get { return blue; }
+        set { blue = value; }
+    }
+
+    public int Alpha
+    {
+        get { return alpha; }
+        set { alpha = value; }
+    }
+
+    public int GetGrayscale()
+    {
+        return (red + green + blue) / 3;
+    }
+}
+
+public class Ball
+{
+    private int size;
+    private Color color;
+    private int throwCount;
+
+    public Ball(int size, Color color)
+    {
+        this.size = size;
+        this.color = color;
+    }
+
+    public Ball(int size, int red, int green, int blue, int alpha = 255)
+    {
+        this.size = size;
+        this.color = new Color(red, green, blue, alpha);
+    }
+
+    public int Size
+    {
+        get { return size; }
+        set { size = value; }
+    }
+
+    public Color Color
+    {
+        get { return color; }
+        set { color = value; }
+    }
+
+    public void Pop()
+    {
+        size = 0;
+    }
+
+    public void Throw()
+    {
+        if (size > 0)
+            throwCount++;
+    }
+
+    public int GetThrowCount()
+    {
+        return throwCount;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Ball ball1 = new Ball(10, 255, 0, 0); 
+        Ball ball2 = new Ball(15, 0, 255, 0); 
+        Ball ball3 = new Ball(20, 0, 0, 255); 
+
+        ball1.Throw();
+        ball2.Throw();
+        ball2.Throw();
+        ball3.Throw();
+
+        ball1.Pop();
+        
+        ball1.Throw();
+        
+        Console.WriteLine("Ball 1 throw count: " + ball1.GetThrowCount()); 
+        Console.WriteLine("Ball 2 throw count: " + ball2.GetThrowCount()); 
+        Console.WriteLine("Ball 3 throw count: " + ball3.GetThrowCount()); 
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
