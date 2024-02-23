@@ -1,0 +1,52 @@
+03 Object-Oriented Programming 
+
+1.
+	public
+		accessible from any other code in the same assembly or from other assemblies that reference it
+	private
+		accessible only from within the same class or struct
+	protected
+		accessible within the same class or struct, and from derived classes
+	interna
+		accessible within the same assembly but not from outside the assembly
+	protected internal 
+		accessible within the same assembly, from derived classes, and from within the same class or struct
+	private protected
+		accessible within the same assembly and from derived classes, but only if the derived class is within the same assembly 
+
+2. 
+	static
+		members belong to the type itself and are shared among all instances
+	const
+		members are compile-time constants with immutable values
+	readonly
+		members are initialized once and can have different values for each instance, but their values cannot be changed after initialization 
+
+3.
+	constructor is a special type of method that gets called when an instance of a class is created
+	constructors are essential for ensuring the objects are properly initialized and ready for use when they are created 
+	
+4.
+	partial allows you to split the definition of a class, structure, interface, or method across multiple files within the same project
+
+5.	
+	tuples can contain elements of deferent types
+	tuple is fixed size 
+	elements of a tuple can be accessed by their position 
+	tuples are copied by value when passed as arguments or assigned to variables
+	tuples support deconstruction
+	tuples are immutable 
+
+6.
+	record is immutable 
+	record automatically provide value-based equality semantics, meaning two records are considered equal if all their properties have the same values 
+	record supports deconstruction	
+	record can inherit from other records, classes, or interfaces, and they can be sealed or abstract
+	record can be treated as value rather than reference
+
+7.
+	overloading refers to defining multiple methods in the same class with the same name but with difference signatures, it’s determined at compile-time 
+	overriding allows a subclass to provide a specific implementation of a method that is already defined in its superclass, it’s determined at runtime
+
+8.
+	
