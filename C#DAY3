@@ -1,0 +1,242 @@
+04 Generics
+
+1.
+	Generics in programming address the need for code reusability and type safety when working with different data types. Generics allow developers to create classes, interfaces, and methods that can work with any data type, without sacrificing type safety. 
+
+2.
+	List<string> stringList = new List<string>();
+	stringList.Add(“hello world”);
+
+3. 
+	the Dictionary class have two generic type parameters. 
+	The first type parameter represents the type of the keys in the dictionary, and the second type parameter represents the type of the values associated with those keys. 
+
+4. 
+	false
+
+5.
+	list.Add(item);
+
+6.	
+	list.Remove(item);
+	list.RemoveAt(index);
+
+7.
+	specify the type parameter within angle brackets following the class name
+	class ClassName<T>{ }
+	
+8.
+	false
+
+9.
+	true
+
+10.
+	true
+
+Practice working with Generics
+
+
+
+using System;
+
+public class MyStack<T>
+{
+    private List<T> items;
+
+    public MyStack()
+    {
+        items = new List<T>();
+    }
+    
+    public int Count()
+    {
+        return items.Count;
+    }
+
+    public T Pop()
+    {
+        if (items.Count == 0)
+        {
+            throw new InvalidOperationException("Stack is empty");
+        }
+
+        T poppedItem = items[items.Count - 1];
+        items.RemoveAt(items.Count - 1);
+        return poppedItem;
+    }
+
+    void Push(T item)
+    {
+        items.Add(item);
+    }
+}
+
+
+
+
+
+
+
+
+using System;
+
+public class MyList<T>
+{
+    private List<T> items;
+
+    public MyList()
+    {
+        items = new List<T>();
+    }
+    
+    public void Add(T element)
+    {
+        items.Add(element);
+    }
+
+    public T Remove(int index)
+    {
+        if (index < 0 || index >= items.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the list bounds.")
+        }
+        
+        T removed = items[index];
+        items.RemoveAt(index);
+        return removed;
+    }
+
+    public bool Contains(T element)
+    {
+        return items.Contains(element);
+    }
+
+    public void Clear()
+    {
+        items.Clear();
+    }
+
+    public void InsertAt(T element, int index)
+    {
+        if (index < 0 || index > items.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the list bounds.");
+        }
+        items.Insert(index, element);
+    }
+
+    public void DeleteAt(int index)
+    {
+        if (index < 0 || index >= items.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the list bounds.")
+        }
+        items.RemoveAt(index);
+    }
+
+    public T Find(int index)
+    {
+        if (index < 0 || index >= items.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the list bounds.")
+        }
+
+        return items[index];
+    }
+}
+
+
+
+
+
+
+using System;
+
+public interface IEntity
+{
+    int Id { get; set; }
+}
+
+public interface IRepository<T> where T : class, IEntity
+{
+    void Add(T item);
+    void Remove(T item);
+    void Save();
+    IEnumerable<T> GetAll();
+    T GetById(int id);
+}
+
+
+public class GenericRepository<T> : IRepository<T> where T : class, IEntity
+{
+    private List<T> items;
+
+    public GenericRepository()
+    {
+        items = new List<T>();
+    }
+
+    public void Add(T item)
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        items.Add(item);
+    }
+
+    public void Remove(T item)
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+        items.Remove(item);
+    }
+
+    public void Save()
+    {
+        Console.WriteLine("changed saved successfully");
+    }
+
+    public IEnumerable<T> GetAll()
+    {
+        return items;
+    }
+
+    public T GetById(int id)
+    {
+        return items.FirstOrDefault(item => item.Id == id);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
